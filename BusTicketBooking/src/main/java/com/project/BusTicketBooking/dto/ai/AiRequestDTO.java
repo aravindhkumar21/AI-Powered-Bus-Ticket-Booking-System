@@ -1,13 +1,38 @@
 package com.project.BusTicketBooking.dto.ai;
 
 public class AiRequestDTO {
-	private String message;
+
+    private String sessionId;
+    private Long userId;
+    private String message;
 
     public AiRequestDTO() {
     }
 
-    public AiRequestDTO(String message) {
+    public AiRequestDTO(
+            String sessionId,
+            Long userId,
+            String message) {
+
+        this.sessionId = sessionId;
+        this.userId = userId;
         this.message = message;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getMessage() {
@@ -17,5 +42,4 @@ public class AiRequestDTO {
     public void setMessage(String message) {
         this.message = message;
     }
-
 }

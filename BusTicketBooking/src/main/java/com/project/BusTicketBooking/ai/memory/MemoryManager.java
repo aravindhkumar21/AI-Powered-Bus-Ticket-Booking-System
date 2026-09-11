@@ -7,19 +7,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemoryManager {
 
-    private final ConcurrentHashMap<String, ConversationMemory> memories =
-            new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<String, ConversationMemory> memories = new ConcurrentHashMap<>();
 
-    public ConversationMemory getMemory(String userId) {
+	public ConversationMemory getMemory(String userId) {
 
-        return memories.computeIfAbsent(
-                userId,
-                id -> new ConversationMemory()
-        );
-    }
+		return memories.computeIfAbsent(userId, id -> new ConversationMemory());
+	}
 
-    public void clearMemory(String userId) {
+	public void clearMemory(String userId) {
 
-        memories.remove(userId);
-    }
+		memories.remove(userId);
+	}
 }

@@ -12,15 +12,42 @@ public class AiRestController {
 
     private final AiOrchestratorService aiOrchestratorService;
 
-    public AiRestController(AiOrchestratorService aiOrchestratorService) {
-        this.aiOrchestratorService = aiOrchestratorService;
+    public AiRestController(
+            AiOrchestratorService aiOrchestratorService) {
+
+        this.aiOrchestratorService =
+                aiOrchestratorService;
     }
 
+//    @PostMapping("/chat")
+//    public AiResponseDTO chat(
+//            @RequestBody AiRequestDTO request) {
+//
+//        String response =
+//                aiOrchestratorService.process(
+//                        request.getSessionId(),
+//                        request.getUserId(),
+//                        request.getMessage()
+//                );
+//
+//        return new AiResponseDTO(response);
+//    }
     @PostMapping("/chat")
     public AiResponseDTO chat(@RequestBody AiRequestDTO request) {
 
-        String response = aiOrchestratorService.process(request.getMessage());
+        try {
+        	String response = aiOrchestratorService.process(
+        	        request.getSessionId(),
+        	        request.getUserId(),
+        	        request.getMessage()
+        	);
+            return new AiResponseDTO(response);
 
-        return new AiResponseDTO(response);
+        } catch (Exception e) {
+
+            e.printStackTrace();   // temporary debugging
+
+            throw e;
+        }
     }
 }

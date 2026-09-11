@@ -26,7 +26,7 @@ import jakarta.validation.constraints.Positive;
 @Entity
 @Table(name = "buses")
 public class Bus {
-
+ 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long busId;

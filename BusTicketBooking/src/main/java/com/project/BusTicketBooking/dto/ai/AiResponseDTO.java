@@ -1,21 +1,21 @@
 package com.project.BusTicketBooking.dto.ai;
 
 public class AiResponseDTO {
-	 private String response;
 
-	    public AiResponseDTO() {
-	    }
+    private String response;
 
-	    public AiResponseDTO(String response) {
-	        this.response = response;
-	    }
+    public AiResponseDTO() {
+    }
 
-	    public String getResponse() {
-	        return response;
-	    }
+    public AiResponseDTO(String response) {
+        this.response = response;
+    }
 
-	    public void setResponse(String response) {
-	        this.response = response;
-	    }
+    public String getResponse() {
+        return response;
+    }
 
+    public void setResponse(String response) {
+        this.response = response;
+    }
 }

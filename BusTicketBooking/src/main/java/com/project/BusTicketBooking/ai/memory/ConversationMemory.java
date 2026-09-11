@@ -2,29 +2,58 @@ package com.project.BusTicketBooking.ai.memory;
 
 import java.util.List;
 
-import com.project.BusTicketBooking.dto.bus.BusResponseDTO;
+import com.project.BusTicketBooking.dto.ai.BusSearchResponse;
 
 public class ConversationMemory {
 
+    private Long userId;
+
     private String currentIntent;
+    private String step;
 
     private String source;
-
     private String destination;
 
-    private List<BusResponseDTO> buses;
+    private List<BusSearchResponse> buses;
 
     private Integer selectedBusIndex;
-
     private Long selectedBusId;
 
     private String travelDate;
-
     private Integer numberOfSeats;
 
     private List<String> selectedSeats;
+    private List<Long> selectedSeatIds;
 
     public ConversationMemory() {
+    }
+
+    public void reset() {
+
+        currentIntent = null;
+        step = null;
+
+        source = null;
+        destination = null;
+
+        buses = null;
+
+        selectedBusIndex = null;
+        selectedBusId = null;
+
+        travelDate = null;
+        numberOfSeats = null;
+
+        selectedSeats = null;
+        selectedSeatIds = null;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getCurrentIntent() {
@@ -33,6 +62,14 @@ public class ConversationMemory {
 
     public void setCurrentIntent(String currentIntent) {
         this.currentIntent = currentIntent;
+    }
+
+    public String getStep() {
+        return step;
+    }
+
+    public void setStep(String step) {
+        this.step = step;
     }
 
     public String getSource() {
@@ -51,11 +88,11 @@ public class ConversationMemory {
         this.destination = destination;
     }
 
-    public List<BusResponseDTO> getBuses() {
+    public List<BusSearchResponse> getBuses() {
         return buses;
     }
 
-    public void setBuses(List<BusResponseDTO> buses) {
+    public void setBuses(List<BusSearchResponse> buses) {
         this.buses = buses;
     }
 
@@ -97,5 +134,13 @@ public class ConversationMemory {
 
     public void setSelectedSeats(List<String> selectedSeats) {
         this.selectedSeats = selectedSeats;
+    }
+
+    public List<Long> getSelectedSeatIds() {
+        return selectedSeatIds;
+    }
+
+    public void setSelectedSeatIds(List<Long> selectedSeatIds) {
+        this.selectedSeatIds = selectedSeatIds;
     }
 }

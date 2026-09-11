@@ -3,7 +3,8 @@ package com.project.BusTicketBooking.ai.service;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
 
-import com.project.BusTicketBooking.ai.prompt.GreetingPrompt;
+import com.project.BusTicketBooking.ai.prompt.AgentPrompt;
+import com.project.BusTicketBooking.dto.ai.IntentDetailsDTO;
 
 @Service
 public class GeminiService {
@@ -14,65 +15,45 @@ public class GeminiService {
         this.chatClient = builder.build();
     }
 
-    public String detectIntent(String message) {
+    public IntentDetailsDTO understand(String message) {
 
         String prompt = """
-                Identify the user's intent.
+                Analyze the user's bus booking request.
 
-                Return ONLY ONE of these values:
+                Return structured information.
 
-                SEARCH_BUS
+                Allowed intents:
+
+                GREETING
                 BOOK_TICKET
+                SEARCH_BUS
                 CANCEL_TICKET
                 VIEW_BOOKING
-                GREETING
+                SEAT_AVAILABILITY
+                PAYMENT_STATUS
                 UNKNOWN
 
-                User:
-                """ + message;
+                Extract:
 
-        return chatClient.prompt()
-                .user(prompt)
-                .call()
-                .content()
-                .trim();
-    }
+                source
+                destination
+                numberOfSeats
+                travelDate
+                bookingId
 
-    public String chat(String message) {
-
-        return chatClient.prompt()
-                .system(GreetingPrompt.SYSTEM_PROMPT)
-                .user(message)
-                .call()
-                .content();
-    }
-    
-    public String extractSource(String message) {
-        String prompt = """
-                Extract ONLY the source city.
+                Important:
+                - If a value is missing, return null.
+                - If the user gives a date such as tomorrow,
+                  convert it to YYYY-MM-DD when possible.
+                - Return only structurSed information.
 
                 User:
                 """ + message;
 
         return chatClient.prompt()
+                .system(AgentPrompt.SYSTEM_PROMPT)
                 .user(prompt)
                 .call()
-                .content()
-                .trim();
+                .entity(IntentDetailsDTO.class);
     }
-
-    public String extractDestination(String message) {
-        String prompt = """
-                Extract ONLY the destination city.
-
-                User:
-                """ + message;
-
-        return chatClient.prompt()
-                .user(prompt)
-                .call()
-                .content()
-                .trim();
-    }
-
 }

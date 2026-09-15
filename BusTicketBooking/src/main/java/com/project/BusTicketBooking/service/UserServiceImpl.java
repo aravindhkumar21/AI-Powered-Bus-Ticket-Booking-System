@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.project.BusTicketBooking.dto.login.LoginRequestDTO;
+import com.project.BusTicketBooking.dto.login.LoginResponseDTO;
 import com.project.BusTicketBooking.dto.user.UserRequestDTO;
 import com.project.BusTicketBooking.dto.user.UserResponseDTO;
 import com.project.BusTicketBooking.exception.UserNotFoundException;
@@ -64,6 +66,26 @@ public class UserServiceImpl implements UserService {
 			throw new UserNotFoundException("user not found for deletion");
 		}
 	            
+	}
+
+	@Override
+	public LoginResponseDTO login(LoginRequestDTO dto) {
+
+	    User user = userRepo.findByEmail(dto.getEmail())
+	            .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+
+	    if (!user.getPassword().equals(dto.getPassword())) {
+	        throw new RuntimeException("Invalid email or password");
+	    }
+
+	    return new LoginResponseDTO(
+	            user.getUserId(),
+	            user.getName(),
+	            user.getEmail(),
+	            "USER",
+	            "Login successful",
+	            user.getPhone()
+	    );
 	}
 
 }

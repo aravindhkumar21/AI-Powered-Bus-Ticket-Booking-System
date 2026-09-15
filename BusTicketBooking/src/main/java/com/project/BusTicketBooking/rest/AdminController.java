@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.BusTicketBooking.dto.admin.AdminRequestDTO;
 import com.project.BusTicketBooking.dto.admin.AdminResponseDTO;
+import com.project.BusTicketBooking.dto.login.LoginRequestDTO;
+import com.project.BusTicketBooking.dto.login.LoginResponseDTO;
 import com.project.BusTicketBooking.model.Admin;
 import com.project.BusTicketBooking.service.AdminService;
 
@@ -74,6 +76,11 @@ public class AdminController {
         adminService.deleteAdmin(id);
 
         return ResponseEntity.ok("Admin deleted successfully.");
+    }
+    
+    @PostMapping("/login")
+    public LoginResponseDTO login(@Valid @RequestBody LoginRequestDTO dto) {
+        return adminService.login(dto);
     }
 
 }

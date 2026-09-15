@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.BusTicketBooking.dto.login.LoginRequestDTO;
+import com.project.BusTicketBooking.dto.login.LoginResponseDTO;
 import com.project.BusTicketBooking.dto.user.UserRequestDTO;
 import com.project.BusTicketBooking.dto.user.UserResponseDTO;
-import com.project.BusTicketBooking.model.User;
 import com.project.BusTicketBooking.service.UserService;
 
 import jakarta.validation.Valid;
@@ -67,6 +68,10 @@ public class UserController {
         return ResponseEntity.ok("User deleted successfully");
     }
 	
+    @PostMapping("/login")
+    public LoginResponseDTO login(@Valid @RequestBody LoginRequestDTO dto) {
+        return userService.login(dto);
+    }
 	
 
 }

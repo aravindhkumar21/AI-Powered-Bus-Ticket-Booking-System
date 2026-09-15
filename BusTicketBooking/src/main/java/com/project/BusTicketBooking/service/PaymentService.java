@@ -14,6 +14,8 @@ public interface PaymentService {
     PaymentResponseDTO getPaymentById(Long id);
 
     PaymentResponseDTO updatePayment(Long id, PaymentRequestDTO dto);
+    
+    List<PaymentResponseDTO> getPaymentsByUserId(Long userId);
 
     void deletePayment(Long id);
 

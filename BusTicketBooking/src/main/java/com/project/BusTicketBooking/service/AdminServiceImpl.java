@@ -7,9 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.project.BusTicketBooking.dto.admin.AdminRequestDTO;
 import com.project.BusTicketBooking.dto.admin.AdminResponseDTO;
+import com.project.BusTicketBooking.dto.login.LoginRequestDTO;
+import com.project.BusTicketBooking.dto.login.LoginResponseDTO;
 import com.project.BusTicketBooking.exception.AdminNotFoundException;
 import com.project.BusTicketBooking.mapper.AdminMapper;
 import com.project.BusTicketBooking.model.Admin;
+import com.project.BusTicketBooking.model.User;
 import com.project.BusTicketBooking.repo.AdminRepository;
 
 @Service
@@ -63,6 +66,26 @@ public class AdminServiceImpl implements AdminService {
 	public void deleteAdmin(Long id) {
 		Admin existingAdmin = adminRepo.findById(id).orElseThrow(()->new AdminNotFoundException("Admin id : "+id+" not found for deletion"));
 		adminRepo.deleteById(id);
+	}
+
+	@Override
+	public LoginResponseDTO login(LoginRequestDTO dto) {
+
+	    Admin admin = adminRepo.findByEmail(dto.getEmail())
+	            .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+
+	    if (!admin.getPassword().equals(dto.getPassword())) {
+	        throw new RuntimeException("Invalid email or password");
+	    }
+
+	    return new LoginResponseDTO(
+	    	    admin.getAdminId(),
+	    	    admin.getName(),
+	    	    admin.getEmail(),
+	    	    "ADMIN",
+	    	    "Login successful",
+	    	    admin.getPhone()
+	    	);
 	}
 
 }

@@ -64,6 +64,15 @@ public class PaymentServiceImpl implements PaymentService {
 
 		return paymentRepo.findAll().stream().map(PaymentMapper::toResponseDTO).collect(Collectors.toList());
 	}
+	
+	@Override
+	public List<PaymentResponseDTO> getPaymentsByUserId(Long userId) {
+
+	    return paymentRepo.findByBookingUserUserId(userId)
+	            .stream()
+	            .map(PaymentMapper::toResponseDTO)
+	            .collect(Collectors.toList());
+	}
 
 	@Override
 	public PaymentResponseDTO getPaymentById(Long id) {

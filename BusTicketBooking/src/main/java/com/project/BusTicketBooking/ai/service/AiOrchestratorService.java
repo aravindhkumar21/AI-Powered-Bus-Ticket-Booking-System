@@ -648,6 +648,12 @@ public class AiOrchestratorService {
             return "Please reply YES to confirm or NO to cancel.";
         }
 
+        // User must be logged in to create a booking
+        if (memory.getUserId() == null) {
+
+            return "🔐 Please login first to confirm your booking.";
+        }
+
         try {
 
             LocalDate travelDate =
@@ -680,7 +686,6 @@ public class AiOrchestratorService {
             return "Booking failed: " + e.getMessage();
         }
     }
-
     // =========================================================
     // CANCEL
     // =========================================================

@@ -122,6 +122,22 @@ public class BookingServiceImpl implements BookingService {
 
 		return bookingRepo.findAll().stream().map(BookingMapper::toResponseDTO).collect(Collectors.toList());
 	}
+	
+	@Override
+	public List<BookingResponseDTO> getBookingsByUserId(Long userId) {
+
+	    User user = userRepo.findById(userId)
+	            .orElseThrow(
+	                    () -> new UserNotFoundException(
+	                            "User not found"
+	                    )
+	            );
+
+	    return bookingRepo.findByUserUserId(userId)
+	            .stream()
+	            .map(BookingMapper::toResponseDTO)
+	            .collect(Collectors.toList());
+	}
 
 	@Override
 	public BookingResponseDTO getBookingById(Long id) {
@@ -205,6 +221,50 @@ public class BookingServiceImpl implements BookingService {
 
 	    bookingRepo.save(booking);
 
+	}
+	
+	@Override
+	@Transactional
+	public void cancelBookingByUser(Long bookingId, Long userId) {
+
+	    Booking booking = bookingRepo.findById(bookingId)
+	            .orElseThrow(
+	                    () -> new BookingNotFoundException(
+	                            "Booking not found"
+	                    )
+	            );
+
+	    if (!booking.getUser().getUserId().equals(userId)) {
+	        throw new RuntimeException(
+	                "You are not authorized to cancel this booking"
+	        );
+	    }
+
+	    if (booking.getBookingStatus() == BookingStatus.CANCELLED) {
+	        throw new RuntimeException(
+	                "Booking is already cancelled"
+	        );
+	    }
+
+	    booking.setBookingStatus(BookingStatus.CANCELLED);
+
+	    List<Seat> seats = booking.getSeats();
+
+	    for (Seat seat : seats) {
+	        seat.setSeatStatus(SeatStatus.AVAILABLE);
+	    }
+
+	    seatRepo.saveAll(seats);
+
+	    Bus bus = booking.getBus();
+
+	    bus.setAvailableSeats(
+	            bus.getAvailableSeats() + seats.size()
+	    );
+
+	    busRepo.save(bus);
+
+	    bookingRepo.save(booking);
 	}
 
 }

@@ -44,6 +44,16 @@ public class BookingController {
 	public ResponseEntity<List<BookingResponseDTO>> getAllBookings() {
 		return ResponseEntity.ok(bookingService.getAllBookings());
 	}
+	
+	// Get Bookings By User Id
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<BookingResponseDTO>> getBookingsByUserId(
+	        @PathVariable Long userId) {
+
+	    return ResponseEntity.ok(
+	            bookingService.getBookingsByUserId(userId)
+	    );
+	}
 
 	// Get Booking By Id
 	@GetMapping("/booking/{id}")
@@ -64,5 +74,16 @@ public class BookingController {
 	public ResponseEntity<String> deleteBooking(@PathVariable Long id) {
 		bookingService.deleteBooking(id);
 		return ResponseEntity.ok("Booking deleted successfully.");
+	}
+	
+	// Cancel Booking By User
+	@DeleteMapping("/user/{userId}/{bookingId}")
+	public ResponseEntity<String> cancelBookingByUser(
+	        @PathVariable Long userId,
+	        @PathVariable Long bookingId) {
+
+	    bookingService.cancelBookingByUser(bookingId, userId);
+
+	    return ResponseEntity.ok("Booking cancelled successfully.");
 	}
 }

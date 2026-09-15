@@ -17,5 +17,9 @@ public interface BookingService {
 	BookingResponseDTO updateBooking(Long id, BookingUpdateDTO dto);
 
 	void deleteBooking(Long id);
+	
+	List<BookingResponseDTO> getBookingsByUserId(Long userId);
+	
+	void cancelBookingByUser(Long bookingId, Long userId);
 
 }

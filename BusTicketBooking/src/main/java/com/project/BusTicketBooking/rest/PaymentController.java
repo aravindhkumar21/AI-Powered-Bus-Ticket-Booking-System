@@ -46,6 +46,17 @@ public class PaymentController {
 
         return ResponseEntity.ok(paymentService.getAllPayments());
     }
+    
+    
+ // Get Payments By User Id
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PaymentResponseDTO>> getPaymentsByUserId(
+            @PathVariable Long userId) {
+
+        return ResponseEntity.ok(
+                paymentService.getPaymentsByUserId(userId)
+        );
+    }
 
 
     // Get Payment By Id
